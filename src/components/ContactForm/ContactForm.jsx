@@ -21,6 +21,7 @@ export class ContactForm extends React.Component {
 			name: name,
 			number: number,
 		};
+		// !передача нового контакта в APP!
 		this.props.submitForm(newContact);
 		this.resetForm();
 	};

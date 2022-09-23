@@ -1,7 +1,8 @@
 import React from 'react';
 import { ContactForm } from './ContactForm';
 import { Section } from './Section/Section';
-// import { Report } from 'notiflix/build/notiflix-report-aio';
+import { FilterForm } from './FilterForm';
+import { ContactList } from './ContactList';
 
 export class App extends React.Component {
 	state = {
@@ -14,6 +15,8 @@ export class App extends React.Component {
 		filter: '',
 	};
 
+	// todo Добавления новых контактов!!
+
 	getValueForm = dataValue => {
 		if (this.checkContacts(dataValue.name)) {
 			return alert(`${dataValue.name} is already in contacts`);
@@ -25,10 +28,37 @@ export class App extends React.Component {
 		});
 		console.log(this.state);
 	};
+
+	// todo Проверка контактов
+
 	checkContacts = contact => {
 		return this.state.contacts.find(
 			el => el.name.toUpperCase() === contact.toUpperCase()
 		);
+	};
+
+	onChange = event => {
+		event.preventDefault();
+		const { value } = event.currentTarget;
+		this.setState({ filter: value });
+		console.log(this.state.filter);
+
+		// todo добавляет значения в наш Филтер
+	};
+
+	filtrationContact = () => {
+		const currentFilter = this.state.filter.toUpperCase();
+		return this.state.contacts.filter(element => {
+			return element.name.toUpperCase().includes(currentFilter);
+		});
+	};
+
+	onDelContact = id => {
+		this.setState({
+			contacts: this.state.contacts.filter(element => {
+				return element.id !== id;
+			}),
+		});
 	};
 
 	render() {
@@ -36,6 +66,13 @@ export class App extends React.Component {
 			<>
 				<Section title="Phonebook">
 					<ContactForm submitForm={this.getValueForm}></ContactForm>
+				</Section>
+				<Section title="Contact">
+					<FilterForm onChange={this.onChange}></FilterForm>
+					<ContactList
+						contacts={this.filtrationContact()}
+						deleteContact={this.onDelContact}
+					></ContactList>
 				</Section>
 			</>
 		);
