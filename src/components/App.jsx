@@ -3,6 +3,7 @@ import { ContactForm } from './ContactForm';
 import { Section } from './Section/Section';
 import { FilterForm } from './FilterForm';
 import { ContactList } from './ContactList';
+import { DivApp } from './App.styled';
 
 export class App extends React.Component {
 	state = {
@@ -63,7 +64,7 @@ export class App extends React.Component {
 
 	render() {
 		return (
-			<>
+			<DivApp>
 				<Section title="Phonebook">
 					<ContactForm submitForm={this.getValueForm}></ContactForm>
 				</Section>
@@ -74,7 +75,7 @@ export class App extends React.Component {
 						deleteContact={this.onDelContact}
 					></ContactList>
 				</Section>
-			</>
+			</DivApp>
 		);
 	}
 }

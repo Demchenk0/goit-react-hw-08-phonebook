@@ -1,15 +1,17 @@
+import { MyButton, MyLi } from './ContactItem.styled';
+
 export const ContactItem = ({ id, name, number, deleteContact }) => {
 	return (
-		<li>
+		<MyLi>
 			{name}: {number}
-			<button
+			<MyButton
 				type="button"
 				onClick={() => {
 					deleteContact(id);
 				}}
 			>
 				Delete
-			</button>
-		</li>
+			</MyButton>
+		</MyLi>
 	);
 };

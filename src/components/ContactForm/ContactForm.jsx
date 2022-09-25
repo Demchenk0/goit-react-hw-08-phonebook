@@ -1,5 +1,12 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
+import {
+	MyForm,
+	MyLabel,
+	MyButton,
+	MyInput,
+	ErrorText,
+} from './ContactForm.styled';
 import styled from '@emotion/styled';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
@@ -9,7 +16,14 @@ const schema = yup.object().shape({
 	number: yup.number().required(),
 });
 
-const Input = styled(Field)``;
+const FormError = ({ name }) => {
+	return (
+		<ErrorMessage
+			name={name}
+			render={messege => <ErrorText>{messege}</ErrorText>}
+		/>
+	);
+};
 
 export function ContactForm({ submitForm }) {
 	const initialValues = {
@@ -33,29 +47,29 @@ export function ContactForm({ submitForm }) {
 			validationSchema={schema}
 			onSubmit={onSubmitForm}
 		>
-			<Form>
-				<label>
+			<MyForm>
+				<MyLabel>
 					Name
-					<Input
+					<MyInput
 						type="text"
 						name="name"
 						title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
 						required
 					/>
-					<ErrorMessage name="name" component="div"></ErrorMessage>
-				</label>
-				<label>
+					<FormError name="name" title="title" />
+				</MyLabel>
+				<MyLabel>
 					Number
-					<Input
+					<MyInput
 						type="tel"
 						name="number"
 						title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
 						required
 					/>
-					<ErrorMessage name="number" component="div"></ErrorMessage>
-				</label>
-				<button type="submit">All contact</button>
-			</Form>
+					<FormError name="number" title="title" />
+				</MyLabel>
+				<MyButton type="submit">All contact</MyButton>
+			</MyForm>
 		</Formik>
 	);
 }

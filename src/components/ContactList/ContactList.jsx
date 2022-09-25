@@ -1,8 +1,9 @@
 import { ContactItem } from '../ContactItem';
+import { ContList } from './ContactList.styled';
 
 export const ContactList = ({ contacts, deleteContact }) => {
 	return (
-		<ul>
+		<ContList>
 			{contacts.map(({ id, name, number }) => {
 				return (
 					<ContactItem
@@ -14,6 +15,6 @@ export const ContactList = ({ contacts, deleteContact }) => {
 					></ContactItem>
 				);
 			})}
-		</ul>
+		</ContList>
 	);
 };
