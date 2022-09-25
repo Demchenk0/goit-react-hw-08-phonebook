@@ -7,8 +7,7 @@ import {
 	MyInput,
 	ErrorText,
 } from './ContactForm.styled';
-import styled from '@emotion/styled';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
