@@ -62,6 +62,25 @@ export class App extends React.Component {
 		});
 	};
 
+	// todo Запись LocalStorage
+	componentDidUpdate(prevProps, prevState) {
+		if (this.state.contacts !== prevState.contacts) {
+			//! Перезаписываю масив в локалСтор
+			localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+		}
+	}
+
+	// todo Достаем из LocalStorage контакты и записываем в State
+
+	componentDidMount() {
+		const myContacts = localStorage.getItem('contacts');
+		const parsedContacts = JSON.parse(myContacts);
+
+		if (parsedContacts) {
+			this.setState({ contacts: parsedContacts });
+		}
+	}
+
 	render() {
 		return (
 			<DivApp>
