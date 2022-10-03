@@ -1,100 +1,75 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm';
 import { Section } from './Section/Section';
 import { FilterForm } from './FilterForm';
 import { ContactList } from './ContactList';
 import { DivApp } from './App.styled';
 
-export class App extends React.Component {
-	state = {
-		contacts: [
-			{ id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-			{ id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-			{ id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-			{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-		],
-		filter: '',
-	};
+const originalContacts = [
+	{ id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+	{ id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+	{ id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+	{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+];
 
-	// todo Добавления новых контактов!!
+export function App() {
+	const myContacts = localStorage.getItem('contacts');
+	const parsedContacts = JSON.parse(myContacts);
 
-	getValueForm = dataValue => {
-		if (this.checkContacts(dataValue.name)) {
+	// todo Проверка на наличие Контактов!!!
+	const [contacts, setContacts] = useState(() =>
+		parsedContacts?.length > 0 ? parsedContacts : originalContacts
+	);
+
+	const [filter, setFilter] = useState('');
+
+	useEffect(() => {
+		localStorage.setItem('contacts', JSON.stringify(contacts));
+	}, [contacts]);
+
+	const getValueForm = dataValue => {
+		if (checkContacts(dataValue.name)) {
 			return alert(`${dataValue.name} is already in contacts`);
 		}
-		this.setState(({ contacts }) => {
-			return {
-				contacts: [...contacts, dataValue],
-			};
-		});
-		console.log(this.state);
+		setContacts(prevContacts => [...prevContacts, dataValue]);
 	};
 
-	// todo Проверка контактов
-
-	checkContacts = contact => {
-		return this.state.contacts.find(
-			el => el.name.toUpperCase() === contact.toUpperCase()
-		);
+	const checkContacts = contact => {
+		return contacts.find(el => el.name.toUpperCase() === contact.toUpperCase());
 	};
 
-	onChange = event => {
-		event.preventDefault();
+	const onChange = event => {
 		const { value } = event.currentTarget;
-		this.setState({ filter: value });
-		console.log(this.state.filter);
-
-		// todo добавляет значения в наш Филтер
+		setFilter(value);
 	};
 
-	filtrationContact = () => {
-		const currentFilter = this.state.filter.toUpperCase();
-		return this.state.contacts.filter(element => {
+	const filtrationContact = () => {
+		const currentFilter = filter.toUpperCase();
+		return contacts.filter(element => {
 			return element.name.toUpperCase().includes(currentFilter);
 		});
 	};
 
-	onDelContact = id => {
-		this.setState({
-			contacts: this.state.contacts.filter(element => {
+	const onDelContact = id => {
+		setContacts(
+			contacts.filter(element => {
 				return element.id !== id;
-			}),
-		});
+			})
+		);
 	};
 
-	// todo Запись LocalStorage
-	componentDidUpdate(prevProps, prevState) {
-		if (this.state.contacts !== prevState.contacts) {
-			//! Перезаписываю масив в локалСтор
-			localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-		}
-	}
-
-	// todo Достаем из LocalStorage контакты и записываем в State
-
-	componentDidMount() {
-		const myContacts = localStorage.getItem('contacts');
-		const parsedContacts = JSON.parse(myContacts);
-
-		if (parsedContacts) {
-			this.setState({ contacts: parsedContacts });
-		}
-	}
-
-	render() {
-		return (
-			<DivApp>
-				<Section title="Phonebook">
-					<ContactForm submitForm={this.getValueForm}></ContactForm>
-				</Section>
-				<Section title="Contact">
-					<FilterForm onChange={this.onChange}></FilterForm>
-					<ContactList
-						contacts={this.filtrationContact()}
-						deleteContact={this.onDelContact}
-					></ContactList>
-				</Section>
-			</DivApp>
-		);
-	}
+	return (
+		<DivApp>
+			<Section title="Phonebook">
+				<ContactForm submitForm={getValueForm}></ContactForm>
+			</Section>
+			<Section title="Contact">
+				<FilterForm onChange={onChange}></FilterForm>
+				<ContactList
+					contacts={filtrationContact()}
+					deleteContact={onDelContact}
+				></ContactList>
+			</Section>
+		</DivApp>
+	);
 }
