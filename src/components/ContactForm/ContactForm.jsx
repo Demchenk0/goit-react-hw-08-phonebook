@@ -9,6 +9,7 @@ import {
 } from './ContactForm.styled';
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import PropTypes from 'prop-types';
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -72,3 +73,7 @@ export function ContactForm({ submitForm }) {
 		</Formik>
 	);
 }
+
+ContactForm.propTypes = {
+	submitForm: PropTypes.func.isRequired,
+};
