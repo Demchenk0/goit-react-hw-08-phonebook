@@ -1,10 +1,10 @@
 import { MyButton, MyLi } from './ContactItem.styled';
 import PropTypes from 'prop-types';
 
-export const ContactItem = ({ id, name, number, deleteContact }) => {
+export const ContactItem = ({ id, name, phone, deleteContact }) => {
 	return (
 		<MyLi>
-			{name}: {number}
+			{name}: {phone}
 			<MyButton
 				type="button"
 				onClick={() => {
@@ -19,6 +19,6 @@ export const ContactItem = ({ id, name, number, deleteContact }) => {
 ContactItem.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	number: PropTypes.string.isRequired,
+	phone: PropTypes.string.isRequired,
 	deleteContact: PropTypes.func.isRequired,
 };

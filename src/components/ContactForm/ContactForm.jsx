@@ -1,5 +1,4 @@
 import React from 'react';
-import { nanoid } from 'nanoid';
 import {
 	MyForm,
 	MyLabel,
@@ -10,10 +9,11 @@ import {
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
-	number: yup.number().required(),
+	phone: yup.string().required(),
 });
 
 const FormError = ({ name }) => {
@@ -26,16 +26,16 @@ const FormError = ({ name }) => {
 };
 
 export function ContactForm({ submitForm }) {
+	const isLoading = useSelector(state => state.contacts.isLoading);
 	const initialValues = {
 		name: '',
-		number: '',
+		phone: '',
 	};
 
-	const onSubmitForm = ({ name, number }, { resetForm }) => {
+	const onSubmitForm = ({ name, phone }, { resetForm }) => {
 		const newContact = {
-			id: nanoid(),
 			name: name,
-			number: number,
+			phone: phone,
 		};
 		// !передача нового контакта в APP!
 		submitForm(newContact);
@@ -62,13 +62,16 @@ export function ContactForm({ submitForm }) {
 					Number
 					<MyInput
 						type="tel"
-						name="number"
+						name="phone"
 						title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
 						required
 					/>
-					<FormError name="number" title="title" />
+					<FormError name="phone" title="title" />
 				</MyLabel>
-				<MyButton type="submit">All contact</MyButton>
+				<MyButton type="submit" disabled={isLoading}>
+					{' '}
+					{isLoading ? 'Loading' : 'All contact'}
+				</MyButton>
 			</MyForm>
 		</Formik>
 	);
