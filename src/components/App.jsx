@@ -1,61 +1,63 @@
-import { ContactForm } from './ContactForm';
-import { Section } from './Section/Section';
-import { FilterForm } from './FilterForm';
-import { ContactList } from './ContactList';
-import { DivApp } from './App.styled';
-import {
-	// addContacts,
-	// deleteContacts,
-	changeFilter,
-} from './redux/contactSlice';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { Layout } from './Layout/Layout';
+import { PagesRegister } from '../Pages/PagesRegister/PagesRegister';
+import { PagesContact } from '../Pages/PagesContact/PagesContact';
+import { PagesLogin } from '../Pages/PagesLogin/PagesLogin';
+import { Home } from '../Pages/Home/Home';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContact, addContact, deleteContact } from './redux/operation';
+import { getIsFetchingCurrentUser } from 'redux/Auth/AuthSelectors';
 import { useEffect } from 'react';
+import { fetchCurrentUser } from 'redux/Auth/AuthOperation';
+import { PrivateRoute } from './PrivateRoute/PrivateRoute';
+import { PublicRoute } from './PublicRoute/PublicRoute';
 
 export function App() {
-	const state = useSelector(state => state);
 	const dispatch = useDispatch();
-	if (state.contacts.error) {
-		alert('Так Лера Сказала ');
-	}
+	const isFetchingCurrentUser = useSelector(getIsFetchingCurrentUser);
 	useEffect(() => {
-		dispatch(getContact());
+		dispatch(fetchCurrentUser());
 	}, [dispatch]);
 
-	const getValueForm = dataValue => {
-		if (checkContacts(dataValue.name)) {
-			return alert(`${dataValue.name} is already in contacts`);
-		}
-		dispatch(addContact(dataValue));
-	};
-
-	const checkContacts = contact => {
-		return state.contacts.items.find(
-			el => el.name.toUpperCase() === contact.toUpperCase()
-		);
-	};
-
-	const filtrationContact = () => {
-		const currentFilter = state.filter.toUpperCase();
-		return state.contacts.items.filter(element => {
-			return element.name.toUpperCase().includes(currentFilter);
-		});
-	};
-
 	return (
-		<DivApp>
-			<Section title="Phonebook">
-				<ContactForm submitForm={getValueForm}></ContactForm>
-			</Section>
-			<Section title="Contact">
-				<FilterForm
-					onChange={event => dispatch(changeFilter(event.currentTarget.value))}
-				></FilterForm>
-				<ContactList
-					contacts={filtrationContact()}
-					deleteContact={id => dispatch(deleteContact(id))}
-				></ContactList>
-			</Section>
-		</DivApp>
+		isFetchingCurrentUser && (
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route
+						index
+						element={
+							<PublicRoute>
+								<Home />
+							</PublicRoute>
+						}
+					></Route>
+					<Route
+						path="contacts"
+						element={
+							<PrivateRoute redirect="/login">
+								<PagesContact />
+							</PrivateRoute>
+						}
+					></Route>
+					<Route
+						path="register"
+						element={
+							// !=========== Протестить '/'
+							<PublicRoute restricted redirect="/contacts">
+								<PagesRegister />
+							</PublicRoute>
+						}
+					></Route>
+					<Route
+						path="login"
+						element={
+							<PublicRoute restricted redirect="/contacts">
+								<PagesLogin />
+							</PublicRoute>
+						}
+					></Route>
+					<Route path="*" element={<Navigate to="/" />}></Route>
+				</Route>
+			</Routes>
+		)
 	);
 }

@@ -10,10 +10,11 @@ import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { getIsLoading } from 'redux/Contacts/contactSelector';
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
-	phone: yup.string().required(),
+	number: yup.string().required(),
 });
 
 const FormError = ({ name }) => {
@@ -26,16 +27,16 @@ const FormError = ({ name }) => {
 };
 
 export function ContactForm({ submitForm }) {
-	const isLoading = useSelector(state => state.contacts.isLoading);
+	const isLoading = useSelector(getIsLoading);
 	const initialValues = {
 		name: '',
-		phone: '',
+		number: '',
 	};
 
-	const onSubmitForm = ({ name, phone }, { resetForm }) => {
+	const onSubmitForm = ({ name, number }, { resetForm }) => {
 		const newContact = {
 			name: name,
-			phone: phone,
+			number: number,
 		};
 		// !передача нового контакта в APP!
 		submitForm(newContact);
@@ -62,15 +63,14 @@ export function ContactForm({ submitForm }) {
 					Number
 					<MyInput
 						type="tel"
-						name="phone"
+						name="number"
 						title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
 						required
 					/>
-					<FormError name="phone" title="title" />
+					<FormError name="number" title="title" />
 				</MyLabel>
 				<MyButton type="submit" disabled={isLoading}>
-					{' '}
-					{isLoading ? 'Loading' : 'All contact'}
+					{isLoading ? '...Loading' : 'Add contact'}
 				</MyButton>
 			</MyForm>
 		</Formik>

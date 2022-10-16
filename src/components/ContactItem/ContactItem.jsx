@@ -1,14 +1,21 @@
 import { MyButton, MyLi } from './ContactItem.styled';
-import PropTypes from 'prop-types';
+// import { useState } from 'react';
 
-export const ContactItem = ({ id, name, phone, deleteContact }) => {
+import PropTypes from 'prop-types';
+// import { useSelector } from 'react-redux';
+// import { getIsLoading } from 'redux/Contacts/contactSelector';
+
+export const ContactItem = ({ id, name, number, deleteContact }) => {
+	// const [isLocalLoading, setIsLocalLoading] = useState(false);
+	// const isLoading = useSelector(getIsLoading);
 	return (
 		<MyLi>
-			{name}: {phone}
+			{name}: {number}
 			<MyButton
 				type="button"
 				onClick={() => {
 					deleteContact(id);
+					// setIsLocalLoading(true);
 				}}
 			>
 				Delete
@@ -19,6 +26,6 @@ export const ContactItem = ({ id, name, phone, deleteContact }) => {
 ContactItem.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	phone: PropTypes.string.isRequired,
+	number: PropTypes.string.isRequired,
 	deleteContact: PropTypes.func.isRequired,
 };

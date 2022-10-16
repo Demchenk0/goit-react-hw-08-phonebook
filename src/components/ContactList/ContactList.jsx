@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 export const ContactList = ({ contacts, deleteContact }) => {
 	return (
 		<ContList>
-			{contacts.map(({ id, name, phone }) => {
+			{contacts.map(({ id, name, number }) => {
 				return (
 					<ContactItem
 						key={id}
 						id={id}
 						name={name}
-						phone={phone}
+						number={number}
 						deleteContact={deleteContact}
 					></ContactItem>
 				);
@@ -25,7 +25,7 @@ ContactList.propTypes = {
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
 			name: PropTypes.string.isRequired,
-			phone: PropTypes.string.isRequired,
+			number: PropTypes.string.isRequired,
 		})
 	).isRequired,
 	deleteContact: PropTypes.func.isRequired,
