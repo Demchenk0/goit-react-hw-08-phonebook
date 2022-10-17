@@ -1,3 +1,12 @@
+import { HomeContainer, HomeText } from './Home.styled';
+
 export function Home() {
-	return <div>Div4ik ili ashe4ka so slovom Home</div>;
+	return (
+		<HomeContainer>
+			<HomeText>
+				Доброго дня, ви зайшли на книгу контактів, вам потрібно зареєструватися
+				щоб зберігати контакти
+			</HomeText>
+		</HomeContainer>
+	);
 }

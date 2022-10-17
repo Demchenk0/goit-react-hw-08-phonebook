@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/Auth/AuthOperation';
+import {
+	RegisterContainer,
+	RegisterButton,
+	RegisterLabel,
+	RegisterForm,
+	RegisterInput,
+} from './PagesRegister.styled';
 
 export function PagesRegister() {
 	const [name, setName] = useState('');
@@ -34,33 +41,38 @@ export function PagesRegister() {
 		setPassword('');
 	}
 	return (
-		<div>
-			<form onSubmit={handelSubmit}>
-				<label>
+		<RegisterContainer>
+			<RegisterForm onSubmit={handelSubmit}>
+				<RegisterLabel>
 					Name
-					<input onChange={handelChange} type="text" name="name" value={name} />
-				</label>
-				<label></label>
-				<label>
+					<RegisterInput
+						onChange={handelChange}
+						type="text"
+						name="name"
+						value={name}
+					/>
+				</RegisterLabel>
+				{/* <label></label> */}
+				<RegisterLabel>
 					Mail
-					<input
+					<RegisterInput
 						onChange={handelChange}
 						type="email"
 						name="email"
 						value={email}
 					/>
-				</label>
-				<label>
+				</RegisterLabel>
+				<RegisterLabel>
 					Password
-					<input
+					<RegisterInput
 						onChange={handelChange}
 						type="password"
 						name="password"
 						value={password}
 					/>
-				</label>
-				<button type="submit">Registration</button>
-			</form>
-		</div>
+				</RegisterLabel>
+				<RegisterButton type="submit">Registration</RegisterButton>
+			</RegisterForm>
+		</RegisterContainer>
 	);
 }

@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/Auth/AuthOperation';
+import {
+	LoginContainer,
+	LoginButton,
+	LoginLabel,
+	LoginForm,
+	LoginInput,
+} from './PagesLogin.styled';
 
 export function PagesLogin() {
 	const [email, setEmail] = useState('');
@@ -29,28 +36,28 @@ export function PagesLogin() {
 		setPassword('');
 	}
 	return (
-		<div>
-			<form onSubmit={handelSubmit}>
-				<label>
+		<LoginContainer>
+			<LoginForm onSubmit={handelSubmit}>
+				<LoginLabel>
 					Email
-					<input
+					<LoginInput
 						onChange={handelChange}
 						type="email"
 						name="email"
 						value={email}
 					/>
-				</label>
-				<label>
+				</LoginLabel>
+				<LoginLabel>
 					Password
-					<input
+					<LoginInput
 						onChange={handelChange}
 						type="password"
 						name="password"
 						value={password}
 					/>
-				</label>
-				<button type="submit">LogIn</button>
-			</form>
-		</div>
+				</LoginLabel>
+				<LoginButton type="submit">LogIn</LoginButton>
+			</LoginForm>
+		</LoginContainer>
 	);
 }
