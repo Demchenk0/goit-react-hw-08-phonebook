@@ -1,9 +1,14 @@
 import { Suspense } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { UserMenu } from './../UserMenu/UserMenu';
 import { getIsLoggedIn } from './../../redux/Auth/AuthSelectors';
 import { useSelector } from 'react-redux';
-import { LayoutHeader, LayoutNav, LayoultContainer } from './Layout.styled';
+import {
+	LayoutHeader,
+	LayoutNav,
+	LayoultContainer,
+	LayoutLink,
+} from './Layout.styled';
 
 export function Layout() {
 	const isLoggedIn = useSelector(getIsLoggedIn);
@@ -12,18 +17,18 @@ export function Layout() {
 			<LayoutHeader>
 				<LayoutNav>
 					<LayoultContainer>
-						<NavLink end to="/">
+						<LayoutLink end to="/">
 							Home
-						</NavLink>
+						</LayoutLink>
+						{isLoggedIn && <LayoutLink to="/contacts">Contacts</LayoutLink>}
 					</LayoultContainer>
 					<LayoultContainer>
-						{isLoggedIn && <NavLink to="/contacts">Contacts</NavLink>}
 						{isLoggedIn ? (
 							<UserMenu></UserMenu>
 						) : (
 							<>
-								<NavLink to="/login">Log in</NavLink>
-								<NavLink to="/register">Register</NavLink>
+								<LayoutLink to="/login">Log in</LayoutLink>
+								<LayoutLink to="/register">Register</LayoutLink>
 							</>
 						)}
 					</LayoultContainer>

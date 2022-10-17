@@ -5,7 +5,6 @@ export const UserContainer = styled.div`
 	text-align: center;
 	align-items: flex-end;
 	margin-left: auto;
-	margin-right: 50px;
 	border-radius: 2em;
 	flex-direction: column;
 	/* box-shadow: rgb(0 0 0 / 40%) 0px 30px 90px; */
