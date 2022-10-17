@@ -4,7 +4,6 @@ export const RegisterContainer = styled.div`
 	display: flex;
 	text-align: center;
 	align-items: center;
-	/* width: 700px; */
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 2em;
@@ -58,4 +57,5 @@ export const RegisterInput = styled.input`
 	font-size: 11px;
 	font-family: Tahoma;
 	margin-left: 10px;
+	width: 200px;
 `;

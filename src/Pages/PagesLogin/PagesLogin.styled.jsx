@@ -58,4 +58,5 @@ export const LoginInput = styled.input`
 	font-size: 11px;
 	font-family: Tahoma;
 	margin-left: 10px;
+	width: 200px;
 `;
